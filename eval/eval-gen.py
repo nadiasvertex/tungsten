@@ -142,6 +142,9 @@ def generate_opcodes():
         opcode_defs.append(Opcode(op_class="zero", data_type=dt, dst_kind=ParmKind.REG))
         opcode_defs.append(Opcode(op_class="inc", data_type=dt, dst_kind=ParmKind.REG))
         opcode_defs.append(Opcode(op_class="dec", data_type=dt, dst_kind=ParmKind.REG))
+        TEST_RESULTS[opcode_defs[-1].full_name] = 9
+        TEST_RESULTS[opcode_defs[-2].full_name] = 11
+        TEST_RESULTS[opcode_defs[-3].full_name] = 0
     return opcode_defs
 
 
@@ -270,6 +273,18 @@ def write_dispatcher_tests(opcode_defs):
                     if test_result:
                         test.write(f"\t{cpp_type} expected = {test_result};\n")
                         test.write("\tCHECK(result == expected);\n")
+                case (None, None, ParmKind.REG):
+                    test.write(f"\tauto dst = m.allocate<{cpp_type}>();\n");
+                    test.write(f"\t{cpp_type} result;\n")
+                    test.write(f"\tm.write<{cpp_type}>(dst, 10);\n")
+                    test.write(
+                        f"\ttungsten::vm::{opcode.op_class}_{opcode.parm_triplet()}<{cpp_type}>(m, dst);\n")
+                    test.write(f"\tm.read<{cpp_type}>(dst, result);\n")
+                    test_result = TEST_RESULTS.get(opcode.full_name)
+                    if test_result:
+                        test.write(f"\t{cpp_type} expected = {test_result};\n")
+                        test.write("\tCHECK(result == expected);\n")
+
             test.write("}\n")
 
 

@@ -3635,120 +3635,310 @@ TEST_CASE("ne_f64_rcr", "[dispatch]") {
 TEST_CASE("zero_u8_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint8_t>();
+	std::uint8_t result;
+	m.write<std::uint8_t>(dst, 10);
+	tungsten::vm::zero_nnr<std::uint8_t>(m, dst);
+	m.read<std::uint8_t>(dst, result);
 }
 TEST_CASE("inc_u8_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint8_t>();
+	std::uint8_t result;
+	m.write<std::uint8_t>(dst, 10);
+	tungsten::vm::inc_nnr<std::uint8_t>(m, dst);
+	m.read<std::uint8_t>(dst, result);
+	std::uint8_t expected = 11;
+	CHECK(result == expected);
 }
 TEST_CASE("dec_u8_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint8_t>();
+	std::uint8_t result;
+	m.write<std::uint8_t>(dst, 10);
+	tungsten::vm::dec_nnr<std::uint8_t>(m, dst);
+	m.read<std::uint8_t>(dst, result);
+	std::uint8_t expected = 9;
+	CHECK(result == expected);
 }
 TEST_CASE("zero_s8_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int8_t>();
+	std::int8_t result;
+	m.write<std::int8_t>(dst, 10);
+	tungsten::vm::zero_nnr<std::int8_t>(m, dst);
+	m.read<std::int8_t>(dst, result);
 }
 TEST_CASE("inc_s8_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int8_t>();
+	std::int8_t result;
+	m.write<std::int8_t>(dst, 10);
+	tungsten::vm::inc_nnr<std::int8_t>(m, dst);
+	m.read<std::int8_t>(dst, result);
+	std::int8_t expected = 11;
+	CHECK(result == expected);
 }
 TEST_CASE("dec_s8_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int8_t>();
+	std::int8_t result;
+	m.write<std::int8_t>(dst, 10);
+	tungsten::vm::dec_nnr<std::int8_t>(m, dst);
+	m.read<std::int8_t>(dst, result);
+	std::int8_t expected = 9;
+	CHECK(result == expected);
 }
 TEST_CASE("zero_u16_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint16_t>();
+	std::uint16_t result;
+	m.write<std::uint16_t>(dst, 10);
+	tungsten::vm::zero_nnr<std::uint16_t>(m, dst);
+	m.read<std::uint16_t>(dst, result);
 }
 TEST_CASE("inc_u16_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint16_t>();
+	std::uint16_t result;
+	m.write<std::uint16_t>(dst, 10);
+	tungsten::vm::inc_nnr<std::uint16_t>(m, dst);
+	m.read<std::uint16_t>(dst, result);
+	std::uint16_t expected = 11;
+	CHECK(result == expected);
 }
 TEST_CASE("dec_u16_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint16_t>();
+	std::uint16_t result;
+	m.write<std::uint16_t>(dst, 10);
+	tungsten::vm::dec_nnr<std::uint16_t>(m, dst);
+	m.read<std::uint16_t>(dst, result);
+	std::uint16_t expected = 9;
+	CHECK(result == expected);
 }
 TEST_CASE("zero_s16_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int16_t>();
+	std::int16_t result;
+	m.write<std::int16_t>(dst, 10);
+	tungsten::vm::zero_nnr<std::int16_t>(m, dst);
+	m.read<std::int16_t>(dst, result);
 }
 TEST_CASE("inc_s16_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int16_t>();
+	std::int16_t result;
+	m.write<std::int16_t>(dst, 10);
+	tungsten::vm::inc_nnr<std::int16_t>(m, dst);
+	m.read<std::int16_t>(dst, result);
+	std::int16_t expected = 11;
+	CHECK(result == expected);
 }
 TEST_CASE("dec_s16_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int16_t>();
+	std::int16_t result;
+	m.write<std::int16_t>(dst, 10);
+	tungsten::vm::dec_nnr<std::int16_t>(m, dst);
+	m.read<std::int16_t>(dst, result);
+	std::int16_t expected = 9;
+	CHECK(result == expected);
 }
 TEST_CASE("zero_u32_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint32_t>();
+	std::uint32_t result;
+	m.write<std::uint32_t>(dst, 10);
+	tungsten::vm::zero_nnr<std::uint32_t>(m, dst);
+	m.read<std::uint32_t>(dst, result);
 }
 TEST_CASE("inc_u32_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint32_t>();
+	std::uint32_t result;
+	m.write<std::uint32_t>(dst, 10);
+	tungsten::vm::inc_nnr<std::uint32_t>(m, dst);
+	m.read<std::uint32_t>(dst, result);
+	std::uint32_t expected = 11;
+	CHECK(result == expected);
 }
 TEST_CASE("dec_u32_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint32_t>();
+	std::uint32_t result;
+	m.write<std::uint32_t>(dst, 10);
+	tungsten::vm::dec_nnr<std::uint32_t>(m, dst);
+	m.read<std::uint32_t>(dst, result);
+	std::uint32_t expected = 9;
+	CHECK(result == expected);
 }
 TEST_CASE("zero_s32_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int32_t>();
+	std::int32_t result;
+	m.write<std::int32_t>(dst, 10);
+	tungsten::vm::zero_nnr<std::int32_t>(m, dst);
+	m.read<std::int32_t>(dst, result);
 }
 TEST_CASE("inc_s32_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int32_t>();
+	std::int32_t result;
+	m.write<std::int32_t>(dst, 10);
+	tungsten::vm::inc_nnr<std::int32_t>(m, dst);
+	m.read<std::int32_t>(dst, result);
+	std::int32_t expected = 11;
+	CHECK(result == expected);
 }
 TEST_CASE("dec_s32_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int32_t>();
+	std::int32_t result;
+	m.write<std::int32_t>(dst, 10);
+	tungsten::vm::dec_nnr<std::int32_t>(m, dst);
+	m.read<std::int32_t>(dst, result);
+	std::int32_t expected = 9;
+	CHECK(result == expected);
 }
 TEST_CASE("zero_u64_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint64_t>();
+	std::uint64_t result;
+	m.write<std::uint64_t>(dst, 10);
+	tungsten::vm::zero_nnr<std::uint64_t>(m, dst);
+	m.read<std::uint64_t>(dst, result);
 }
 TEST_CASE("inc_u64_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint64_t>();
+	std::uint64_t result;
+	m.write<std::uint64_t>(dst, 10);
+	tungsten::vm::inc_nnr<std::uint64_t>(m, dst);
+	m.read<std::uint64_t>(dst, result);
+	std::uint64_t expected = 11;
+	CHECK(result == expected);
 }
 TEST_CASE("dec_u64_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::uint64_t>();
+	std::uint64_t result;
+	m.write<std::uint64_t>(dst, 10);
+	tungsten::vm::dec_nnr<std::uint64_t>(m, dst);
+	m.read<std::uint64_t>(dst, result);
+	std::uint64_t expected = 9;
+	CHECK(result == expected);
 }
 TEST_CASE("zero_s64_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int64_t>();
+	std::int64_t result;
+	m.write<std::int64_t>(dst, 10);
+	tungsten::vm::zero_nnr<std::int64_t>(m, dst);
+	m.read<std::int64_t>(dst, result);
 }
 TEST_CASE("inc_s64_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int64_t>();
+	std::int64_t result;
+	m.write<std::int64_t>(dst, 10);
+	tungsten::vm::inc_nnr<std::int64_t>(m, dst);
+	m.read<std::int64_t>(dst, result);
+	std::int64_t expected = 11;
+	CHECK(result == expected);
 }
 TEST_CASE("dec_s64_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<std::int64_t>();
+	std::int64_t result;
+	m.write<std::int64_t>(dst, 10);
+	tungsten::vm::dec_nnr<std::int64_t>(m, dst);
+	m.read<std::int64_t>(dst, result);
+	std::int64_t expected = 9;
+	CHECK(result == expected);
 }
 TEST_CASE("zero_f32_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<float>();
+	float result;
+	m.write<float>(dst, 10);
+	tungsten::vm::zero_nnr<float>(m, dst);
+	m.read<float>(dst, result);
 }
 TEST_CASE("inc_f32_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<float>();
+	float result;
+	m.write<float>(dst, 10);
+	tungsten::vm::inc_nnr<float>(m, dst);
+	m.read<float>(dst, result);
+	float expected = 11;
+	CHECK(result == expected);
 }
 TEST_CASE("dec_f32_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<float>();
+	float result;
+	m.write<float>(dst, 10);
+	tungsten::vm::dec_nnr<float>(m, dst);
+	m.read<float>(dst, result);
+	float expected = 9;
+	CHECK(result == expected);
 }
 TEST_CASE("zero_f64_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<double>();
+	double result;
+	m.write<double>(dst, 10);
+	tungsten::vm::zero_nnr<double>(m, dst);
+	m.read<double>(dst, result);
 }
 TEST_CASE("inc_f64_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<double>();
+	double result;
+	m.write<double>(dst, 10);
+	tungsten::vm::inc_nnr<double>(m, dst);
+	m.read<double>(dst, result);
+	double expected = 11;
+	CHECK(result == expected);
 }
 TEST_CASE("dec_f64_nnr", "[dispatch]") {
 	tungsten::machine m;
 	std::vector<std::uint8_t> c;
+	auto dst = m.allocate<double>();
+	double result;
+	m.write<double>(dst, 10);
+	tungsten::vm::dec_nnr<double>(m, dst);
+	m.read<double>(dst, result);
+	double expected = 9;
+	CHECK(result == expected);
 }

@@ -4,8 +4,11 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
+#include <stdexcept>
 #include <unordered_map>
 #include <vector>
+
+#include <fmt/format.h>
 
 namespace tungsten {
 struct machine {
@@ -89,4 +92,24 @@ struct machine {
     collectors[offset] = [ptr]() { delete ptr; };
   }
 };
+
+template <typename T>
+inline auto memory_address(const machine &m, std::size_t offset) -> const T * {
+  if (offset >= m.memory.size()) {
+    throw std::out_of_range(
+        fmt::format("address {} exceeds allocated pool bounds {}", offset,
+                    m.memory.size()));
+  }
+  return reinterpret_cast<const T *>(m.memory.data() + offset);
+}
+
+template <typename T>
+inline auto memory_address(machine &m, std::size_t offset) -> T * {
+  if (offset >= m.memory.size()) {
+    throw std::out_of_range(
+        fmt::format("address {} exceeds allocated pool bounds {}", offset,
+                    m.memory.size()));
+  }
+  return reinterpret_cast<T *>(m.memory.data() + offset);
+}
 } // namespace tungsten

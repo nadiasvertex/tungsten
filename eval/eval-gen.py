@@ -90,19 +90,19 @@ dispatch_test_file = test_dir / "test_dispatch.cpp"
 
 LOAD_MAP = {
     "rrr": """\
-    const T *src1_value = reinterpret_cast<const T*>(m.memory.data() + src1);
-    const T *src2_value = reinterpret_cast<const T*>(m.memory.data() + src2);
-    T *dst_value = reinterpret_cast<T*>(m.memory.data() + dst);
+    const T *src1_value = memory_address<T>(m, src1);
+    const T *src2_value = memory_address<T>(m, src2);
+    T *dst_value = memory_address<T>(m, dst);
 """,
     "rcr": """\
-   const T *src1_value = reinterpret_cast<const T*>(m.memory.data() + src1);
-   T *dst_value = reinterpret_cast<T*>(m.memory.data() + dst);
+   const T *src1_value = memory_address<T>(m, src1);
+   T *dst_value = memory_address<T>(m, dst);
 """,
     "ccr": """\
-   T *dst_value = reinterpret_cast<T*>(m.memory.data() + dst);
+   T *dst_value = memory_address<T>(m, dst);
 """,
     "nnr": """\
-    T *dst_value = reinterpret_cast<T*>(m.memory.data() + dst);
+    T *dst_value = memory_address<T>(m, dst);
 """
 }
 
@@ -115,7 +115,7 @@ EXEC_MAP = {
 def make_test_result(op):
     r = eval(f"8 {op} 2")
     if type(r) == bool:
-        return 1
+        return 1 if r else 0
     return r
 
 
@@ -188,30 +188,6 @@ def write_binary_operations():
             out.write(LOAD_MAP["rcr"])
             out.write(EXEC_MAP["rcr"] % op)
             out.write("}\n")
-        write_source_footer(out)
-
-
-def write_unnary_operations():
-    with unops_file.open("w") as out:
-        write_source_header(out, ['"eval/vm.h"'])
-        out.write(
-            f"template <typename T>\nvoid zero_nnr(tungsten::machine &m, std::size_t dst) {{\n")
-        out.write(LOAD_MAP["nnr"])
-        out.write("*dst_value = 0;")
-        out.write("}\n")
-
-        out.write(
-            f"template <typename T>\nvoid inc_nnr(tungsten::machine &m, std::size_t dst) {{\n")
-        out.write(LOAD_MAP["nnr"])
-        out.write("(*dst_value)++;")
-        out.write("}\n")
-
-        out.write(
-            f"template <typename T>\nvoid dec_nnr(tungsten::machine &m, std::size_t dst) {{\n")
-        out.write(LOAD_MAP["nnr"])
-        out.write("(*dst_value)--;")
-        out.write("}\n")
-
         write_source_footer(out)
 
 
@@ -303,7 +279,6 @@ def main():
     write_dispatcher(opcode_defs)
     write_dispatcher_tests(opcode_defs)
     write_binary_operations()
-    write_unnary_operations()
 
 
 if __name__ == "__main__":

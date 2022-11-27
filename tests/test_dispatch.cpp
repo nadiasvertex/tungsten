@@ -2143,8 +2143,6 @@ TEST_CASE("lt_u8_rrr", "[dispatch]") {
 	m.write<std::uint8_t>(src2, 2);
 	tungsten::vm::lt_rrr<std::uint8_t>(m, src1, src2, dst);
 	m.read<std::uint8_t>(dst, result);
-	std::uint8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_u8_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2156,8 +2154,6 @@ TEST_CASE("lt_u8_rcr", "[dispatch]") {
 	m.write<std::uint8_t>(src1, 8);
 	tungsten::vm::lt_rcr<std::uint8_t>(m, src1, src2, dst);
 	m.read<std::uint8_t>(dst, result);
-	std::uint8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_s8_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2170,8 +2166,6 @@ TEST_CASE("lt_s8_rrr", "[dispatch]") {
 	m.write<std::int8_t>(src2, 2);
 	tungsten::vm::lt_rrr<std::int8_t>(m, src1, src2, dst);
 	m.read<std::int8_t>(dst, result);
-	std::int8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_s8_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2183,8 +2177,6 @@ TEST_CASE("lt_s8_rcr", "[dispatch]") {
 	m.write<std::int8_t>(src1, 8);
 	tungsten::vm::lt_rcr<std::int8_t>(m, src1, src2, dst);
 	m.read<std::int8_t>(dst, result);
-	std::int8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_u16_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2197,8 +2189,6 @@ TEST_CASE("lt_u16_rrr", "[dispatch]") {
 	m.write<std::uint16_t>(src2, 2);
 	tungsten::vm::lt_rrr<std::uint16_t>(m, src1, src2, dst);
 	m.read<std::uint16_t>(dst, result);
-	std::uint16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_u16_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2210,8 +2200,6 @@ TEST_CASE("lt_u16_rcr", "[dispatch]") {
 	m.write<std::uint16_t>(src1, 8);
 	tungsten::vm::lt_rcr<std::uint16_t>(m, src1, src2, dst);
 	m.read<std::uint16_t>(dst, result);
-	std::uint16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_s16_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2224,8 +2212,6 @@ TEST_CASE("lt_s16_rrr", "[dispatch]") {
 	m.write<std::int16_t>(src2, 2);
 	tungsten::vm::lt_rrr<std::int16_t>(m, src1, src2, dst);
 	m.read<std::int16_t>(dst, result);
-	std::int16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_s16_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2237,8 +2223,6 @@ TEST_CASE("lt_s16_rcr", "[dispatch]") {
 	m.write<std::int16_t>(src1, 8);
 	tungsten::vm::lt_rcr<std::int16_t>(m, src1, src2, dst);
 	m.read<std::int16_t>(dst, result);
-	std::int16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_u32_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2251,8 +2235,6 @@ TEST_CASE("lt_u32_rrr", "[dispatch]") {
 	m.write<std::uint32_t>(src2, 2);
 	tungsten::vm::lt_rrr<std::uint32_t>(m, src1, src2, dst);
 	m.read<std::uint32_t>(dst, result);
-	std::uint32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_u32_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2264,8 +2246,6 @@ TEST_CASE("lt_u32_rcr", "[dispatch]") {
 	m.write<std::uint32_t>(src1, 8);
 	tungsten::vm::lt_rcr<std::uint32_t>(m, src1, src2, dst);
 	m.read<std::uint32_t>(dst, result);
-	std::uint32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_s32_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2278,8 +2258,6 @@ TEST_CASE("lt_s32_rrr", "[dispatch]") {
 	m.write<std::int32_t>(src2, 2);
 	tungsten::vm::lt_rrr<std::int32_t>(m, src1, src2, dst);
 	m.read<std::int32_t>(dst, result);
-	std::int32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_s32_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2291,8 +2269,6 @@ TEST_CASE("lt_s32_rcr", "[dispatch]") {
 	m.write<std::int32_t>(src1, 8);
 	tungsten::vm::lt_rcr<std::int32_t>(m, src1, src2, dst);
 	m.read<std::int32_t>(dst, result);
-	std::int32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_u64_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2305,8 +2281,6 @@ TEST_CASE("lt_u64_rrr", "[dispatch]") {
 	m.write<std::uint64_t>(src2, 2);
 	tungsten::vm::lt_rrr<std::uint64_t>(m, src1, src2, dst);
 	m.read<std::uint64_t>(dst, result);
-	std::uint64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_u64_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2318,8 +2292,6 @@ TEST_CASE("lt_u64_rcr", "[dispatch]") {
 	m.write<std::uint64_t>(src1, 8);
 	tungsten::vm::lt_rcr<std::uint64_t>(m, src1, src2, dst);
 	m.read<std::uint64_t>(dst, result);
-	std::uint64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_s64_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2332,8 +2304,6 @@ TEST_CASE("lt_s64_rrr", "[dispatch]") {
 	m.write<std::int64_t>(src2, 2);
 	tungsten::vm::lt_rrr<std::int64_t>(m, src1, src2, dst);
 	m.read<std::int64_t>(dst, result);
-	std::int64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_s64_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2345,8 +2315,6 @@ TEST_CASE("lt_s64_rcr", "[dispatch]") {
 	m.write<std::int64_t>(src1, 8);
 	tungsten::vm::lt_rcr<std::int64_t>(m, src1, src2, dst);
 	m.read<std::int64_t>(dst, result);
-	std::int64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_f32_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2359,8 +2327,6 @@ TEST_CASE("lt_f32_rrr", "[dispatch]") {
 	m.write<float>(src2, 2);
 	tungsten::vm::lt_rrr<float>(m, src1, src2, dst);
 	m.read<float>(dst, result);
-	float expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_f32_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2372,8 +2338,6 @@ TEST_CASE("lt_f32_rcr", "[dispatch]") {
 	m.write<float>(src1, 8);
 	tungsten::vm::lt_rcr<float>(m, src1, src2, dst);
 	m.read<float>(dst, result);
-	float expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_f64_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2386,8 +2350,6 @@ TEST_CASE("lt_f64_rrr", "[dispatch]") {
 	m.write<double>(src2, 2);
 	tungsten::vm::lt_rrr<double>(m, src1, src2, dst);
 	m.read<double>(dst, result);
-	double expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lt_f64_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2399,8 +2361,6 @@ TEST_CASE("lt_f64_rcr", "[dispatch]") {
 	m.write<double>(src1, 8);
 	tungsten::vm::lt_rcr<double>(m, src1, src2, dst);
 	m.read<double>(dst, result);
-	double expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("gt_u8_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2683,8 +2643,6 @@ TEST_CASE("lte_u8_rrr", "[dispatch]") {
 	m.write<std::uint8_t>(src2, 2);
 	tungsten::vm::lte_rrr<std::uint8_t>(m, src1, src2, dst);
 	m.read<std::uint8_t>(dst, result);
-	std::uint8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_u8_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2696,8 +2654,6 @@ TEST_CASE("lte_u8_rcr", "[dispatch]") {
 	m.write<std::uint8_t>(src1, 8);
 	tungsten::vm::lte_rcr<std::uint8_t>(m, src1, src2, dst);
 	m.read<std::uint8_t>(dst, result);
-	std::uint8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_s8_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2710,8 +2666,6 @@ TEST_CASE("lte_s8_rrr", "[dispatch]") {
 	m.write<std::int8_t>(src2, 2);
 	tungsten::vm::lte_rrr<std::int8_t>(m, src1, src2, dst);
 	m.read<std::int8_t>(dst, result);
-	std::int8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_s8_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2723,8 +2677,6 @@ TEST_CASE("lte_s8_rcr", "[dispatch]") {
 	m.write<std::int8_t>(src1, 8);
 	tungsten::vm::lte_rcr<std::int8_t>(m, src1, src2, dst);
 	m.read<std::int8_t>(dst, result);
-	std::int8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_u16_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2737,8 +2689,6 @@ TEST_CASE("lte_u16_rrr", "[dispatch]") {
 	m.write<std::uint16_t>(src2, 2);
 	tungsten::vm::lte_rrr<std::uint16_t>(m, src1, src2, dst);
 	m.read<std::uint16_t>(dst, result);
-	std::uint16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_u16_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2750,8 +2700,6 @@ TEST_CASE("lte_u16_rcr", "[dispatch]") {
 	m.write<std::uint16_t>(src1, 8);
 	tungsten::vm::lte_rcr<std::uint16_t>(m, src1, src2, dst);
 	m.read<std::uint16_t>(dst, result);
-	std::uint16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_s16_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2764,8 +2712,6 @@ TEST_CASE("lte_s16_rrr", "[dispatch]") {
 	m.write<std::int16_t>(src2, 2);
 	tungsten::vm::lte_rrr<std::int16_t>(m, src1, src2, dst);
 	m.read<std::int16_t>(dst, result);
-	std::int16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_s16_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2777,8 +2723,6 @@ TEST_CASE("lte_s16_rcr", "[dispatch]") {
 	m.write<std::int16_t>(src1, 8);
 	tungsten::vm::lte_rcr<std::int16_t>(m, src1, src2, dst);
 	m.read<std::int16_t>(dst, result);
-	std::int16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_u32_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2791,8 +2735,6 @@ TEST_CASE("lte_u32_rrr", "[dispatch]") {
 	m.write<std::uint32_t>(src2, 2);
 	tungsten::vm::lte_rrr<std::uint32_t>(m, src1, src2, dst);
 	m.read<std::uint32_t>(dst, result);
-	std::uint32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_u32_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2804,8 +2746,6 @@ TEST_CASE("lte_u32_rcr", "[dispatch]") {
 	m.write<std::uint32_t>(src1, 8);
 	tungsten::vm::lte_rcr<std::uint32_t>(m, src1, src2, dst);
 	m.read<std::uint32_t>(dst, result);
-	std::uint32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_s32_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2818,8 +2758,6 @@ TEST_CASE("lte_s32_rrr", "[dispatch]") {
 	m.write<std::int32_t>(src2, 2);
 	tungsten::vm::lte_rrr<std::int32_t>(m, src1, src2, dst);
 	m.read<std::int32_t>(dst, result);
-	std::int32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_s32_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2831,8 +2769,6 @@ TEST_CASE("lte_s32_rcr", "[dispatch]") {
 	m.write<std::int32_t>(src1, 8);
 	tungsten::vm::lte_rcr<std::int32_t>(m, src1, src2, dst);
 	m.read<std::int32_t>(dst, result);
-	std::int32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_u64_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2845,8 +2781,6 @@ TEST_CASE("lte_u64_rrr", "[dispatch]") {
 	m.write<std::uint64_t>(src2, 2);
 	tungsten::vm::lte_rrr<std::uint64_t>(m, src1, src2, dst);
 	m.read<std::uint64_t>(dst, result);
-	std::uint64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_u64_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2858,8 +2792,6 @@ TEST_CASE("lte_u64_rcr", "[dispatch]") {
 	m.write<std::uint64_t>(src1, 8);
 	tungsten::vm::lte_rcr<std::uint64_t>(m, src1, src2, dst);
 	m.read<std::uint64_t>(dst, result);
-	std::uint64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_s64_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2872,8 +2804,6 @@ TEST_CASE("lte_s64_rrr", "[dispatch]") {
 	m.write<std::int64_t>(src2, 2);
 	tungsten::vm::lte_rrr<std::int64_t>(m, src1, src2, dst);
 	m.read<std::int64_t>(dst, result);
-	std::int64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_s64_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2885,8 +2815,6 @@ TEST_CASE("lte_s64_rcr", "[dispatch]") {
 	m.write<std::int64_t>(src1, 8);
 	tungsten::vm::lte_rcr<std::int64_t>(m, src1, src2, dst);
 	m.read<std::int64_t>(dst, result);
-	std::int64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_f32_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2899,8 +2827,6 @@ TEST_CASE("lte_f32_rrr", "[dispatch]") {
 	m.write<float>(src2, 2);
 	tungsten::vm::lte_rrr<float>(m, src1, src2, dst);
 	m.read<float>(dst, result);
-	float expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_f32_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2912,8 +2838,6 @@ TEST_CASE("lte_f32_rcr", "[dispatch]") {
 	m.write<float>(src1, 8);
 	tungsten::vm::lte_rcr<float>(m, src1, src2, dst);
 	m.read<float>(dst, result);
-	float expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_f64_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -2926,8 +2850,6 @@ TEST_CASE("lte_f64_rrr", "[dispatch]") {
 	m.write<double>(src2, 2);
 	tungsten::vm::lte_rrr<double>(m, src1, src2, dst);
 	m.read<double>(dst, result);
-	double expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("lte_f64_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -2939,8 +2861,6 @@ TEST_CASE("lte_f64_rcr", "[dispatch]") {
 	m.write<double>(src1, 8);
 	tungsten::vm::lte_rcr<double>(m, src1, src2, dst);
 	m.read<double>(dst, result);
-	double expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("gte_u8_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -3223,8 +3143,6 @@ TEST_CASE("eq_u8_rrr", "[dispatch]") {
 	m.write<std::uint8_t>(src2, 2);
 	tungsten::vm::eq_rrr<std::uint8_t>(m, src1, src2, dst);
 	m.read<std::uint8_t>(dst, result);
-	std::uint8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_u8_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -3236,8 +3154,6 @@ TEST_CASE("eq_u8_rcr", "[dispatch]") {
 	m.write<std::uint8_t>(src1, 8);
 	tungsten::vm::eq_rcr<std::uint8_t>(m, src1, src2, dst);
 	m.read<std::uint8_t>(dst, result);
-	std::uint8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_s8_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -3250,8 +3166,6 @@ TEST_CASE("eq_s8_rrr", "[dispatch]") {
 	m.write<std::int8_t>(src2, 2);
 	tungsten::vm::eq_rrr<std::int8_t>(m, src1, src2, dst);
 	m.read<std::int8_t>(dst, result);
-	std::int8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_s8_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -3263,8 +3177,6 @@ TEST_CASE("eq_s8_rcr", "[dispatch]") {
 	m.write<std::int8_t>(src1, 8);
 	tungsten::vm::eq_rcr<std::int8_t>(m, src1, src2, dst);
 	m.read<std::int8_t>(dst, result);
-	std::int8_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_u16_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -3277,8 +3189,6 @@ TEST_CASE("eq_u16_rrr", "[dispatch]") {
 	m.write<std::uint16_t>(src2, 2);
 	tungsten::vm::eq_rrr<std::uint16_t>(m, src1, src2, dst);
 	m.read<std::uint16_t>(dst, result);
-	std::uint16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_u16_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -3290,8 +3200,6 @@ TEST_CASE("eq_u16_rcr", "[dispatch]") {
 	m.write<std::uint16_t>(src1, 8);
 	tungsten::vm::eq_rcr<std::uint16_t>(m, src1, src2, dst);
 	m.read<std::uint16_t>(dst, result);
-	std::uint16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_s16_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -3304,8 +3212,6 @@ TEST_CASE("eq_s16_rrr", "[dispatch]") {
 	m.write<std::int16_t>(src2, 2);
 	tungsten::vm::eq_rrr<std::int16_t>(m, src1, src2, dst);
 	m.read<std::int16_t>(dst, result);
-	std::int16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_s16_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -3317,8 +3223,6 @@ TEST_CASE("eq_s16_rcr", "[dispatch]") {
 	m.write<std::int16_t>(src1, 8);
 	tungsten::vm::eq_rcr<std::int16_t>(m, src1, src2, dst);
 	m.read<std::int16_t>(dst, result);
-	std::int16_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_u32_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -3331,8 +3235,6 @@ TEST_CASE("eq_u32_rrr", "[dispatch]") {
 	m.write<std::uint32_t>(src2, 2);
 	tungsten::vm::eq_rrr<std::uint32_t>(m, src1, src2, dst);
 	m.read<std::uint32_t>(dst, result);
-	std::uint32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_u32_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -3344,8 +3246,6 @@ TEST_CASE("eq_u32_rcr", "[dispatch]") {
 	m.write<std::uint32_t>(src1, 8);
 	tungsten::vm::eq_rcr<std::uint32_t>(m, src1, src2, dst);
 	m.read<std::uint32_t>(dst, result);
-	std::uint32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_s32_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -3358,8 +3258,6 @@ TEST_CASE("eq_s32_rrr", "[dispatch]") {
 	m.write<std::int32_t>(src2, 2);
 	tungsten::vm::eq_rrr<std::int32_t>(m, src1, src2, dst);
 	m.read<std::int32_t>(dst, result);
-	std::int32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_s32_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -3371,8 +3269,6 @@ TEST_CASE("eq_s32_rcr", "[dispatch]") {
 	m.write<std::int32_t>(src1, 8);
 	tungsten::vm::eq_rcr<std::int32_t>(m, src1, src2, dst);
 	m.read<std::int32_t>(dst, result);
-	std::int32_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_u64_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -3385,8 +3281,6 @@ TEST_CASE("eq_u64_rrr", "[dispatch]") {
 	m.write<std::uint64_t>(src2, 2);
 	tungsten::vm::eq_rrr<std::uint64_t>(m, src1, src2, dst);
 	m.read<std::uint64_t>(dst, result);
-	std::uint64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_u64_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -3398,8 +3292,6 @@ TEST_CASE("eq_u64_rcr", "[dispatch]") {
 	m.write<std::uint64_t>(src1, 8);
 	tungsten::vm::eq_rcr<std::uint64_t>(m, src1, src2, dst);
 	m.read<std::uint64_t>(dst, result);
-	std::uint64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_s64_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -3412,8 +3304,6 @@ TEST_CASE("eq_s64_rrr", "[dispatch]") {
 	m.write<std::int64_t>(src2, 2);
 	tungsten::vm::eq_rrr<std::int64_t>(m, src1, src2, dst);
 	m.read<std::int64_t>(dst, result);
-	std::int64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_s64_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -3425,8 +3315,6 @@ TEST_CASE("eq_s64_rcr", "[dispatch]") {
 	m.write<std::int64_t>(src1, 8);
 	tungsten::vm::eq_rcr<std::int64_t>(m, src1, src2, dst);
 	m.read<std::int64_t>(dst, result);
-	std::int64_t expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_f32_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -3439,8 +3327,6 @@ TEST_CASE("eq_f32_rrr", "[dispatch]") {
 	m.write<float>(src2, 2);
 	tungsten::vm::eq_rrr<float>(m, src1, src2, dst);
 	m.read<float>(dst, result);
-	float expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_f32_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -3452,8 +3338,6 @@ TEST_CASE("eq_f32_rcr", "[dispatch]") {
 	m.write<float>(src1, 8);
 	tungsten::vm::eq_rcr<float>(m, src1, src2, dst);
 	m.read<float>(dst, result);
-	float expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_f64_rrr", "[dispatch]") {
 	tungsten::machine m;
@@ -3466,8 +3350,6 @@ TEST_CASE("eq_f64_rrr", "[dispatch]") {
 	m.write<double>(src2, 2);
 	tungsten::vm::eq_rrr<double>(m, src1, src2, dst);
 	m.read<double>(dst, result);
-	double expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("eq_f64_rcr", "[dispatch]") {
 	tungsten::machine m;
@@ -3479,8 +3361,6 @@ TEST_CASE("eq_f64_rcr", "[dispatch]") {
 	m.write<double>(src1, 8);
 	tungsten::vm::eq_rcr<double>(m, src1, src2, dst);
 	m.read<double>(dst, result);
-	double expected = 1;
-	CHECK(result == expected);
 }
 TEST_CASE("ne_u8_rrr", "[dispatch]") {
 	tungsten::machine m;

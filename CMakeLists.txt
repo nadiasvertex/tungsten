@@ -28,23 +28,27 @@ include(Catch)
 
 include_directories(${CMAKE_SOURCE_DIR} ${fmt_SOURCE_DIR}/include)
 
+set(SOURCE_FILES
+        ast/value.h
+        eval/unops.h
+        eval/binops.h
+        eval/dispatch.h
+        eval/opcodes.h
+        eval/register.h
+        eval/serdes.h
+        eval/vm.h
+
+        src/ast/value.cpp
+        src/eval/register.cpp
+        src/eval/vm.cpp
+        )
+
 ##### Define unit tests
-add_executable(tests tests/test_vm.cpp tests/test_dispatch.cpp)
+add_executable(tests ${SOURCE_FILES} tests/test_vm.cpp tests/test_dispatch.cpp)
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain fmt::fmt)
 target_compile_options(tests PRIVATE -fsanitize=address)
 target_link_options(tests PUBLIC -fsanitize=address)
 catch_discover_tests(tests)
 
 ##### Define interpreter
-add_executable(tungsten main.cpp
-        ast/value.h
-        eval/unops.h
-        eval/binops.h
-        eval/dispatch.h
-        eval/opcodes.h
-        eval/serdes.h
-        eval/vm.h
-
-        src/ast/value.cpp
-        src/eval/vm.cpp
-        )
+add_executable(tungsten main.cpp ${SOURCE_FILES})

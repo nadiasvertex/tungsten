@@ -328,7 +328,10 @@ def write_dispatcher_tests(opcode_defs):
                         test.write("\tCHECK(result == expected);\n")
                 case (None, None, ParmKind.MEM):
                     test.write("\tauto dst = ra.allocate();\n")
-                    test.write(f"\ttungsten::vm::alloc_nnr<{cpp_type}>(m,dst.name());\n")
+                    if opcode.op_class == "alloc":
+                        test.write(f"\ttungsten::vm::alloc_nnr<std::size_t>(m,dst.name());\n")
+                    else:
+                        test.write(f"\ttungsten::vm::alloc_nnr<{cpp_type}>(m,dst.name());\n")
                     test.write(f"\t*tungsten::memory_address<{cpp_type}>(m,dst.name()) = 10;\n")
                     test.write(
                         f"\ttungsten::vm::{opcode.op_class}_{opcode.parm_triplet()}<{cpp_type}>(m, dst.name());\n")

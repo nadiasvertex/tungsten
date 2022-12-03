@@ -5245,7 +5245,7 @@ TEST_CASE("alloc_u8_nnm", "[dispatch]") {
 	tungsten::vm::register_allocator ra;
 	std::vector<std::uint8_t> c;
 	auto dst = ra.allocate();
-	tungsten::vm::alloc_nnr<std::uint8_t>(m,dst.name());
+	tungsten::vm::alloc_nnr<std::size_t>(m,dst.name());
 	*tungsten::memory_address<std::uint8_t>(m,dst.name()) = 10;
 	tungsten::vm::alloc_nnm<std::uint8_t>(m, dst.name());
 	std::uint8_t result = *tungsten::memory_address<std::uint8_t>(m,dst.name());
@@ -5333,7 +5333,7 @@ TEST_CASE("alloc_s8_nnm", "[dispatch]") {
 	tungsten::vm::register_allocator ra;
 	std::vector<std::uint8_t> c;
 	auto dst = ra.allocate();
-	tungsten::vm::alloc_nnr<std::int8_t>(m,dst.name());
+	tungsten::vm::alloc_nnr<std::size_t>(m,dst.name());
 	*tungsten::memory_address<std::int8_t>(m,dst.name()) = 10;
 	tungsten::vm::alloc_nnm<std::int8_t>(m, dst.name());
 	std::int8_t result = *tungsten::memory_address<std::int8_t>(m,dst.name());
@@ -5421,7 +5421,7 @@ TEST_CASE("alloc_u16_nnm", "[dispatch]") {
 	tungsten::vm::register_allocator ra;
 	std::vector<std::uint8_t> c;
 	auto dst = ra.allocate();
-	tungsten::vm::alloc_nnr<std::uint16_t>(m,dst.name());
+	tungsten::vm::alloc_nnr<std::size_t>(m,dst.name());
 	*tungsten::memory_address<std::uint16_t>(m,dst.name()) = 10;
 	tungsten::vm::alloc_nnm<std::uint16_t>(m, dst.name());
 	std::uint16_t result = *tungsten::memory_address<std::uint16_t>(m,dst.name());
@@ -5509,7 +5509,7 @@ TEST_CASE("alloc_s16_nnm", "[dispatch]") {
 	tungsten::vm::register_allocator ra;
 	std::vector<std::uint8_t> c;
 	auto dst = ra.allocate();
-	tungsten::vm::alloc_nnr<std::int16_t>(m,dst.name());
+	tungsten::vm::alloc_nnr<std::size_t>(m,dst.name());
 	*tungsten::memory_address<std::int16_t>(m,dst.name()) = 10;
 	tungsten::vm::alloc_nnm<std::int16_t>(m, dst.name());
 	std::int16_t result = *tungsten::memory_address<std::int16_t>(m,dst.name());
@@ -5597,7 +5597,7 @@ TEST_CASE("alloc_u32_nnm", "[dispatch]") {
 	tungsten::vm::register_allocator ra;
 	std::vector<std::uint8_t> c;
 	auto dst = ra.allocate();
-	tungsten::vm::alloc_nnr<std::uint32_t>(m,dst.name());
+	tungsten::vm::alloc_nnr<std::size_t>(m,dst.name());
 	*tungsten::memory_address<std::uint32_t>(m,dst.name()) = 10;
 	tungsten::vm::alloc_nnm<std::uint32_t>(m, dst.name());
 	std::uint32_t result = *tungsten::memory_address<std::uint32_t>(m,dst.name());
@@ -5685,7 +5685,7 @@ TEST_CASE("alloc_s32_nnm", "[dispatch]") {
 	tungsten::vm::register_allocator ra;
 	std::vector<std::uint8_t> c;
 	auto dst = ra.allocate();
-	tungsten::vm::alloc_nnr<std::int32_t>(m,dst.name());
+	tungsten::vm::alloc_nnr<std::size_t>(m,dst.name());
 	*tungsten::memory_address<std::int32_t>(m,dst.name()) = 10;
 	tungsten::vm::alloc_nnm<std::int32_t>(m, dst.name());
 	std::int32_t result = *tungsten::memory_address<std::int32_t>(m,dst.name());
@@ -5773,7 +5773,7 @@ TEST_CASE("alloc_u64_nnm", "[dispatch]") {
 	tungsten::vm::register_allocator ra;
 	std::vector<std::uint8_t> c;
 	auto dst = ra.allocate();
-	tungsten::vm::alloc_nnr<std::uint64_t>(m,dst.name());
+	tungsten::vm::alloc_nnr<std::size_t>(m,dst.name());
 	*tungsten::memory_address<std::uint64_t>(m,dst.name()) = 10;
 	tungsten::vm::alloc_nnm<std::uint64_t>(m, dst.name());
 	std::uint64_t result = *tungsten::memory_address<std::uint64_t>(m,dst.name());
@@ -5861,7 +5861,7 @@ TEST_CASE("alloc_s64_nnm", "[dispatch]") {
 	tungsten::vm::register_allocator ra;
 	std::vector<std::uint8_t> c;
 	auto dst = ra.allocate();
-	tungsten::vm::alloc_nnr<std::int64_t>(m,dst.name());
+	tungsten::vm::alloc_nnr<std::size_t>(m,dst.name());
 	*tungsten::memory_address<std::int64_t>(m,dst.name()) = 10;
 	tungsten::vm::alloc_nnm<std::int64_t>(m, dst.name());
 	std::int64_t result = *tungsten::memory_address<std::int64_t>(m,dst.name());
@@ -5949,7 +5949,7 @@ TEST_CASE("alloc_f32_nnm", "[dispatch]") {
 	tungsten::vm::register_allocator ra;
 	std::vector<std::uint8_t> c;
 	auto dst = ra.allocate();
-	tungsten::vm::alloc_nnr<float>(m,dst.name());
+	tungsten::vm::alloc_nnr<std::size_t>(m,dst.name());
 	*tungsten::memory_address<float>(m,dst.name()) = 10;
 	tungsten::vm::alloc_nnm<float>(m, dst.name());
 	float result = *tungsten::memory_address<float>(m,dst.name());
@@ -6037,7 +6037,7 @@ TEST_CASE("alloc_f64_nnm", "[dispatch]") {
 	tungsten::vm::register_allocator ra;
 	std::vector<std::uint8_t> c;
 	auto dst = ra.allocate();
-	tungsten::vm::alloc_nnr<double>(m,dst.name());
+	tungsten::vm::alloc_nnr<std::size_t>(m,dst.name());
 	*tungsten::memory_address<double>(m,dst.name()) = 10;
 	tungsten::vm::alloc_nnm<double>(m, dst.name());
 	double result = *tungsten::memory_address<double>(m,dst.name());

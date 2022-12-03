@@ -2,10 +2,19 @@
 #include "eval/vm.h"
 
 namespace tungsten::vm {
+
+/**
+ * alloc_nnm allocates storage for type T in the memory pool. The address of the
+ * new storage is written to the pool at the address provided in register dst.
+ * @tparam T the type to allocate space for
+ * @param m the machine to use
+ * @param dst the register that contains the address where the address of the
+ *          newly allocated storage should be written.
+ */
 template <typename T>
 void alloc_nnm(tungsten::machine &m, const register_name &dst) {
   auto new_address = m.allocate<T>();
-  T *dst_value = memory_address<T>(m, dst);
+  auto *dst_value = memory_address<decltype(new_address)>(m, dst);
   std::memcpy(dst_value, &new_address, sizeof(new_address));
 }
 

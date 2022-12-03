@@ -34,68 +34,174 @@ class ParmKind(Enum):
     REG = 2
 
 
+PARM_KIND_MAP = {
+    ParmKind.MEM: "m",
+    ParmKind.REG: "r",
+    ParmKind.CONST: "c",
+    None: "n"
+}
+
+
+class ParmSlot(Enum):
+    SRC1 = 0
+    SRC2 = 1
+    DST = 2
+    VLEN = 3
+
+
+PARM_SLOT_NAME_MAP = {
+    ParmSlot.SRC1: "src1",
+    ParmSlot.SRC2: "src2",
+    ParmSlot.DST: "dst",
+    ParmSlot.VLEN: "vlen",
+}
+
+
+class Slot:
+    def __init__(self, slot: ParmSlot, kind: ParmKind = None):
+        self.slot = slot
+        self.kind = kind
+
+    def name(self):
+        return PARM_SLOT_NAME_MAP[self.slot]
+
+    def present(self):
+        return self.kind is not None
+
+    def as_register_prototype(self) -> str:
+        return f"const register_name& {self.name()}"
+
+    def as_constant_prototype(self) -> str:
+        return f"const T& {self.name()}_value"
+
+    def as_value_name(self):
+        return f"{self.name()}_value"
+
+    def as_register_name(self):
+        return self.name()
+
+    def as_selector_name(self):
+        match self.kind:
+            case ParmKind.CONST:
+                return self.as_value_name()
+            case _:
+                return self.as_register_name()
+
+    def as_input_parameter_name(self):
+        match self.kind:
+            case ParmKind.CONST:
+                return f"const T& {self.as_selector_name()}"
+            case _:
+                return f"const register_name& {self.as_selector_name()}"
+
+    def read_register(self):
+        return f"m.read_register<T>({self.name()})"
+
+    def read_memory(self):
+        return f"m.read_memory<T>(m, {self.name()})"
+
+    def read(self):
+        match self.kind:
+            case ParmKind.CONST:
+                return self.as_selector_name()
+            case ParmKind.REG:
+                return self.read_register()
+            case ParmKind.MEM:
+                return self.read_memory()
+
+    def write_register(self, src):
+        return f"m.write_register<T>({self.name()}, {src})"
+
+    def write_memory(self, src):
+        return f"m.write_memory<T>({self.name()}, {src})"
+
+    def write(self, src):
+        match self.kind:
+            case ParmKind.CONST:
+                raise ValueError("Cannot write to constant value.")
+            case ParmKind.REG:
+                return self.write_register(src)
+            case ParmKind.MEM:
+                return self.write_memory(src)
+
+    def declare_value(self):
+        return f"const T {self.name()}"
+
+    def signature(self):
+        return PARM_KIND_MAP[self.kind]
+
+
+class OpcodeCat(Enum):
+    UNOP = 0
+    BINOP = 1
+    VECOP = 2
+    BRCOP = 3
+
+
 class Opcode:
     __next_op_code = 0
 
     def __init__(self, op_class: str, data_type: str, src1_kind: ParmKind = None, src2_kind: ParmKind = None,
-                 dst_kind: ParmKind = None):
+                 dst_kind: ParmKind = None, vlen_kind: ParmKind = None, op_template=None):
         self.op_class = op_class
         self.data_type = data_type
         self.code = Opcode.__next_op_code
-        self.src1_kind = src1_kind
-        self.src2_kind = src2_kind
-        self.dst_kind = dst_kind
-        self.full_name = f"{op_class}_{data_type}_{self.parm_triplet()}"
+        self.src1 = Slot(ParmSlot.SRC1, src1_kind)
+        self.src2 = Slot(ParmSlot.SRC2, src2_kind)
+        self.dst = Slot(ParmSlot.DST, dst_kind)
+        self.vlen = Slot(ParmSlot.VLEN, vlen_kind)
+        self.full_name = f"{op_class}_{data_type}_{self.signature()}"
+        self.op_template = op_template
         Opcode.__next_op_code += 1
 
-    def parm_triplet(self):
-        match (self.src1_kind, self.src2_kind, self.dst_kind):
-            case (ParmKind.MEM, ParmKind.MEM, ParmKind.MEM):
-                return "mmm"
-            case (ParmKind.MEM, ParmKind.CONST, ParmKind.MEM):
-                return "mcm"
-            case (ParmKind.CONST, ParmKind.CONST, ParmKind.MEM):
-                return "ccm"
-            case (ParmKind.REG, ParmKind.REG, ParmKind.REG):
-                return "rrr"
-            case (ParmKind.REG, ParmKind.CONST, ParmKind.REG):
-                return "rcr"
-            case (None, None, ParmKind.MEM):
-                return "nnm"
-            case (None, None, ParmKind.REG):
-                return "nnr"
+    def category(self) -> OpcodeCat:
+        match (self.src1.present(), self.src2.present(), self.dst.present(), self.vlen.present()):
+            case (True, True, True, True):
+                return OpcodeCat.VECOP
+            case (True, True, True, False):
+                return OpcodeCat.BINOP
+            case (True, False, True, False):
+                return OpcodeCat.UNOP
+            case (True, True, False, False):
+                return OpcodeCat.BRCOP
 
-    def reg_names(self):
-        match (self.src1_kind, self.src2_kind, self.dst_kind):
-            case (ParmKind.MEM, ParmKind.MEM, ParmKind.MEM):
-                return "src1", "src2", "dst"
-            case (ParmKind.MEM, ParmKind.CONST, ParmKind.MEM):
-                return "src1", "src2_value", "dst"
-            case (ParmKind.REG, ParmKind.REG, ParmKind.REG):
-                return "src1", "src2", "dst"
-            case (ParmKind.REG, ParmKind.CONST, ParmKind.REG):
-                return "src1", "src2_value", "dst"
-            case (None, None, ParmKind.MEM):
-                return "", "", "dst"
-            case (None, None, ParmKind.REG):
-                return "", "", "dst"
+    def signature(self) -> str:
+        s1 = self.src1.signature()
+        s2 = self.src2.signature()
+        d = self.dst.signature()
+        vl = self.vlen.signature()
+        return f"{s1}{s2}{d}{vl}"
 
-    def local_values(self):
-        match (self.src1_kind, self.src2_kind, self.dst_kind):
-            case (ParmKind.MEM, ParmKind.CONST, ParmKind.MEM):
-                return [(TYPE_MAP[self.data_type], "src2_value")]
-            case (ParmKind.REG, ParmKind.CONST, ParmKind.REG):
-                return [(TYPE_MAP[self.data_type], "src2_value")]
-            case _:
-                return []
+    def read_vecop(self) -> str:
+        parms = ", ".join([parm.as_selector_name() for parm in (self.src1, self.src2, self.dst, self.vlen)])
+        return f"read_binop(code, pc, {parms})"
 
-    def read_binop(self):
-        src1, src2, dst = self.reg_names()
-        return f"read_binop(code, pc, {src1}, {src2}, {dst})"
+    def read_binop(self) -> str:
+        parms = ", ".join([parm.as_selector_name() for parm in (self.src1, self.src2, self.dst)])
+        return f"read_binop(code, pc, {parms})"
 
-    def read_unop(self):
-        _, _, dst = self.reg_names()
-        return f"read_unop(code, pc, {dst})"
+    def read_brcop(self) -> str:
+        parms = ", ".join([parm.as_selector_name() for parm in (self.src1, self.src2)])
+        return f"read_brcnop(code, pc, {parms})"
+
+    def read_unop(self) -> str:
+        return f"read_unop(code, pc, {self.dst.as_selector_name()})"
+
+    def valid_params(self):
+        return [parm for parm in (self.src1, self.src2, self.dst, self.vlen) if parm.present()]
+
+    def prototype(self) -> str:
+        params = ", ".join(["tungsten::machine &m", ] + [parm.as_input_parameter_name() for parm in
+                                                         self.valid_params()])
+        return f"template <typename T>\nvoid {self.op_class}_{self.signature()}({params})"
+
+    def exec(self) -> str:
+        src = self.op_template.format(
+            src1=self.src1.read() if self.src1.present() else None,
+            src2=self.src2.read() if self.src2.present() else None,
+            vlen=self.vlen.read() if self.vlen.present() else None,
+        )
+        return self.dst.write(src)
 
 
 src_dir = Path(__file__).parent
@@ -106,47 +212,6 @@ opcodes_file = src_dir / "opcodes.h"
 binops_serdes_file = src_dir / "serdes.h"
 dispatch_file = src_dir / "dispatch.h"
 dispatch_test_file = test_dir / "test_dispatch.cpp"
-
-PARM_MAP = {
-    "mmm": "tungsten::machine &m, const register_name& src1, const register_name& src2, const register_name& dst",
-    "mcm": "tungsten::machine &m, const register_name& src1, const T& src2_value, const register_name& dst",
-    "rrr": "tungsten::machine &m, const register_name& src1, const register_name& src2, const register_name& dst",
-    "rcr": "tungsten::machine &m, const register_name& src1, const T& src2_value, const register_name& dst",
-    "nnm": "tungsten::machine &m, const register_name& dst",
-    "nnr": "tungsten::machine &m, const register_name& dst",
-}
-
-LOAD_MAP = {
-    "mmm": """\
-    const T *src1_value = memory_address<T>(m, src1);
-    const T *src2_value = memory_address<T>(m, src2);
-    T *dst_value = memory_address<T>(m, dst);
-""",
-    "mcm": """\
-   const T *src1_value = memory_address<T>(m, src1);
-   T *dst_value = memory_address<T>(m, dst);
-""",
-    "rrr": """\
-    const T src1_value = m.read_register<T>(src1);
-    const T src2_value = m.read_register<T>(src2);
-""",
-    "rcr": """\
-   const T src1_value = m.read_register<T>(src1);
-""",
-    "ccm": """\
-   T *dst_value = memory_address<T>(m, dst);
-""",
-    "nnm": """\
-    T *dst_value = memory_address<T>(m, dst);
-"""
-}
-
-EXEC_MAP = {
-    "mmm": "*dst_value = *src1_value %s *src2_value;",
-    "mcm": "*dst_value = *src1_value %s src2_value;",
-    "rrr": "m.write_register<T>(dst, src1_value %s src2_value);",
-    "rcr": "m.write_register<T>(dst, src1_value %s src2_value);",
-}
 
 
 def make_test_result(op):
@@ -160,21 +225,32 @@ def generate_opcodes():
     opcode_defs = []
     for (name, op) in BINARY_INTEGER_OPS:
         for dt in INTEGER_TYPE_NAMES:
-            for kind in (ParmKind.MEM, ParmKind.REG):
-                opcode_defs.append(Opcode(op_class=name, data_type=dt,
-                                          src1_kind=kind, src2_kind=kind, dst_kind=kind))
-                opcode_defs.append(Opcode(op_class=name, data_type=dt,
-                                          src1_kind=kind, src2_kind=ParmKind.CONST, dst_kind=kind))
-                TEST_RESULTS[opcode_defs[-1].full_name] = make_test_result(op)
-                TEST_RESULTS[opcode_defs[-2].full_name] = make_test_result(op)
+            for src1 in (ParmKind.REG, ParmKind.CONST):
+                for src2 in (ParmKind.REG, ParmKind.CONST):
+                    # Don't generate instructions for computing constant values,
+                    # since that can be done at compile time instead of runtime.
+                    if src1 == ParmKind.CONST and src2 == ParmKind.CONST:
+                        continue
+
+                    for dst in (ParmKind.MEM, ParmKind.REG):
+                        opcode_defs.append(Opcode(op_class=name, data_type=dt,
+                                                  src1_kind=src1, src2_kind=src2, dst_kind=dst,
+                                                  op_template=f"({{src1}} {op} {{src2}})"))
+                        TEST_RESULTS[opcode_defs[-1].full_name] = make_test_result(op)
+
     for (name, op) in BINARY_OPS + RELATIONAL_OPS:
         for dt in SCALAR_TYPE_NAMES:
-            opcode_defs.append(Opcode(op_class=name, data_type=dt,
-                                      src1_kind=ParmKind.MEM, src2_kind=ParmKind.MEM, dst_kind=ParmKind.MEM))
-            opcode_defs.append(Opcode(op_class=name, data_type=dt,
-                                      src1_kind=ParmKind.MEM, src2_kind=ParmKind.CONST, dst_kind=ParmKind.MEM))
-            TEST_RESULTS[opcode_defs[-1].full_name] = make_test_result(op)
-            TEST_RESULTS[opcode_defs[-2].full_name] = make_test_result(op)
+            for src1 in (ParmKind.REG, ParmKind.CONST):
+                for src2 in (ParmKind.REG, ParmKind.CONST):
+                    # Don't generate instructions for computing constant values,
+                    # since that can be done at compile time instead of runtime.
+                    if src1 == ParmKind.CONST and src2 == ParmKind.CONST:
+                        continue
+                    for dst in (ParmKind.MEM, ParmKind.REG):
+                        opcode_defs.append(Opcode(op_class=name, data_type=dt,
+                                                  src1_kind=src1, src2_kind=src2, dst_kind=dst,
+                                                  op_template=f"({{src1}} {op} {{src2}})"))
+                        TEST_RESULTS[opcode_defs[-1].full_name] = make_test_result(op)
 
     for dt in SCALAR_TYPE_NAMES:
         for kind in (ParmKind.MEM, ParmKind.REG):
@@ -182,9 +258,19 @@ def generate_opcodes():
             opcode_defs.append(Opcode(op_class="zero", data_type=dt, dst_kind=kind))
             opcode_defs.append(Opcode(op_class="inc", data_type=dt, dst_kind=kind))
             opcode_defs.append(Opcode(op_class="dec", data_type=dt, dst_kind=kind))
-            TEST_RESULTS[opcode_defs[-1].full_name] = 9
-            TEST_RESULTS[opcode_defs[-2].full_name] = 11
-            TEST_RESULTS[opcode_defs[-3].full_name] = 0
+            opcode_defs.append(Opcode(op_class="not", data_type=dt, dst_kind=kind))
+            TEST_RESULTS[opcode_defs[-1].full_name] = 0
+            TEST_RESULTS[opcode_defs[-2].full_name] = 9
+            TEST_RESULTS[opcode_defs[-3].full_name] = 11
+            TEST_RESULTS[opcode_defs[-4].full_name] = 0
+
+    for dt in INTEGER_TYPE_NAMES:
+        for src1 in (ParmKind.MEM, ParmKind.REG, ParmKind.CONST):
+            opcode_defs.append(Opcode(op_class="br", data_type=dt, src1_kind=src1))
+            for src2 in (ParmKind.MEM, ParmKind.REG):
+                opcode_defs.append(Opcode(op_class="brz", data_type=dt, src1_kind=src1, src2_kind=src2))
+                opcode_defs.append(Opcode(op_class="brn", data_type=dt, src1_kind=src1, src2_kind=src2))
+
     return opcode_defs
 
 
@@ -205,16 +291,18 @@ def write_source_footer(out):
     out.write("}\n")
 
 
-def write_binary_operations():
+def write_binary_operations(opcode_defs):
     with binops_file.open("w") as out:
         write_source_header(out, ['"eval/vm.h"'])
-        for (name, op) in BINARY_OPS + BINARY_INTEGER_OPS + RELATIONAL_OPS:
-            for address_mode in ("mmm", "mcm", "rrr", "rcr"):
-                params = PARM_MAP[address_mode]
-                out.write(f"template <typename T>\nvoid {name}_{address_mode}({params}) {{\n")
-                out.write(LOAD_MAP[address_mode])
-                out.write(EXEC_MAP[address_mode] % op)
-                out.write("}\n")
+        processed_classes = set()
+        for opcode in opcode_defs:
+            if opcode.category() != OpcodeCat.BINOP or opcode.op_class in processed_classes:
+                continue
+
+            processed_classes.add(opcode.op_class)
+            proto = opcode.prototype()
+            op = opcode.exec()
+            out.write(f"{proto} {{\n\t{op};\n}}\n")
         write_source_footer(out)
 
 
@@ -238,26 +326,27 @@ def write_dispatcher(opcode_defs):
         for opcode in opcode_defs:
             cpp_type = TYPE_MAP[opcode.data_type]
             dispatch.write(f"\tcase {opcode.full_name}: {{")
-            for (cpp_type, var_name) in opcode.local_values():
-                dispatch.write(f"{cpp_type} {var_name};")
+            #for (cpp_type, var_name) in opcode.local_values():
+            #    dispatch.write(f"{cpp_type} {var_name};")
 
-            match (opcode.src1_kind, opcode.src2_kind, opcode.dst_kind):
-                case (ParmKind.MEM, ParmKind.CONST, ParmKind.MEM) | (ParmKind.REG, ParmKind.CONST, ParmKind.REG):
-                    dispatch.write(f"{opcode.read_binop()};\n")
-                    dispatch.write(
-                        f"{opcode.op_class}_{opcode.parm_triplet()}<{cpp_type}>(m, src1, src2_value, dst);\n")
-                case (ParmKind.MEM, ParmKind.MEM, ParmKind.MEM) | (ParmKind.REG, ParmKind.REG, ParmKind.REG):
-                    dispatch.write(f"{opcode.read_binop()};\n")
-                    dispatch.write(
-                        f"{opcode.op_class}_{opcode.parm_triplet()}<{cpp_type}>(m, src1, src2, dst);\n")
-                case (None, None, ParmKind.MEM) | (None, None, ParmKind.REG):
-                    dispatch.write(f"{opcode.read_unop()};\n")
-                    dispatch.write(
-                        f"{opcode.op_class}_{opcode.parm_triplet()}<{cpp_type}>(m, dst);\n")
+            # match (opcode.src1_kind, opcode.src2_kind, opcode.dst_kind):
+            #     case (ParmKind.MEM, ParmKind.CONST, ParmKind.MEM) | (ParmKind.REG, ParmKind.CONST, ParmKind.REG):
+            #         dispatch.write(f"{opcode.read_binop()};\n")
+            #         dispatch.write(
+            #             f"{opcode.op_class}_{opcode.signature()}<{cpp_type}>(m, src1, src2_value, dst);\n")
+            #     case (ParmKind.MEM, ParmKind.MEM, ParmKind.MEM) | (ParmKind.REG, ParmKind.REG, ParmKind.REG):
+            #         dispatch.write(f"{opcode.read_binop()};\n")
+            #         dispatch.write(
+            #             f"{opcode.op_class}_{opcode.signature()}<{cpp_type}>(m, src1, src2, dst);\n")
+            #     case (None, None, ParmKind.MEM) | (None, None, ParmKind.REG):
+            #         dispatch.write(f"{opcode.read_unop()};\n")
+            #         dispatch.write(
+            #             f"{opcode.op_class}_{opcode.signature()}<{cpp_type}>(m, dst);\n")
 
             dispatch.write("} break;\n")
         dispatch.write("\t}\n")
         dispatch.write("}\n}\n")
+
 
 def write_dispatcher_tests(opcode_defs):
     with dispatch_test_file.open("w") as test:
@@ -269,7 +358,7 @@ def write_dispatcher_tests(opcode_defs):
             test.write("\ttungsten::machine m;\n")
             test.write("\ttungsten::vm::register_allocator ra;\n")
             test.write("\tstd::vector<std::uint8_t> c;\n")
-            match (opcode.src1_kind, opcode.src2_kind, opcode.dst_kind):
+            match (opcode.src1.kind, opcode.src2.kind, opcode.dst.kind):
                 case (ParmKind.MEM, ParmKind.MEM, ParmKind.MEM):
                     test.write("\tauto src1 = ra.allocate();\n")
                     test.write("\tauto src2 = ra.allocate();\n")
@@ -280,7 +369,7 @@ def write_dispatcher_tests(opcode_defs):
                     test.write(f"\t*tungsten::memory_address<{cpp_type}>(m,src1.name()) = 8;\n")
                     test.write(f"\t*tungsten::memory_address<{cpp_type}>(m,src2.name()) = 2;\n")
                     test.write(
-                        f"\ttungsten::vm::{opcode.op_class}_{opcode.parm_triplet()}<{cpp_type}>(m, src1.name(), src2.name(), dst.name());\n")
+                        f"\ttungsten::vm::{opcode.op_class}_{opcode.signature()}<{cpp_type}>(m, src1.name(), src2.name(), dst.name());\n")
                     test.write(f"\t{cpp_type} result = *tungsten::memory_address<{cpp_type}>(m,dst.name());\n")
                     test_result = TEST_RESULTS.get(opcode.full_name)
                     if test_result:
@@ -294,7 +383,7 @@ def write_dispatcher_tests(opcode_defs):
                     test.write(f"\tm.write_register<{cpp_type}>(src1.name(), 8);\n")
                     test.write(f"\tm.write_register<{cpp_type}>(src2.name(), 2);\n")
                     test.write(
-                        f"\ttungsten::vm::{opcode.op_class}_{opcode.parm_triplet()}<{cpp_type}>(m, src1.name(), src2.name(), dst.name());\n")
+                        f"\ttungsten::vm::{opcode.op_class}_{opcode.signature()}<{cpp_type}>(m, src1.name(), src2.name(), dst.name());\n")
                     test.write(f"\t{cpp_type} result = m.read_register<{cpp_type}>(dst.name());\n")
                     test_result = TEST_RESULTS.get(opcode.full_name)
                     if test_result:
@@ -308,7 +397,7 @@ def write_dispatcher_tests(opcode_defs):
                     test.write(f"\ttungsten::vm::alloc_nnr<{cpp_type}>(m,dst.name());\n")
                     test.write(f"\t*tungsten::memory_address<{cpp_type}>(m,src1.name()) = 8;\n")
                     test.write(
-                        f"\ttungsten::vm::{opcode.op_class}_{opcode.parm_triplet()}<{cpp_type}>(m, src1.name(), 2, dst.name());\n")
+                        f"\ttungsten::vm::{opcode.op_class}_{opcode.signature()}<{cpp_type}>(m, src1.name(), 2, dst.name());\n")
                     test.write(f"\t{cpp_type} result = *tungsten::memory_address<{cpp_type}>(m,dst.name());\n")
                     test_result = TEST_RESULTS.get(opcode.full_name)
                     if test_result:
@@ -320,7 +409,7 @@ def write_dispatcher_tests(opcode_defs):
                     test.write(f"\tm.write_register<{cpp_type}>(src1.name(), 8);\n")
                     test.write(f"\tm.write_register<{cpp_type}>(dst.name(), 2);\n")
                     test.write(
-                        f"\ttungsten::vm::{opcode.op_class}_{opcode.parm_triplet()}<{cpp_type}>(m, src1.name(), 2, dst.name());\n")
+                        f"\ttungsten::vm::{opcode.op_class}_{opcode.signature()}<{cpp_type}>(m, src1.name(), 2, dst.name());\n")
                     test.write(f"\t{cpp_type} result = m.read_register<{cpp_type}>(dst.name());\n")
                     test_result = TEST_RESULTS.get(opcode.full_name)
                     if test_result:
@@ -334,7 +423,7 @@ def write_dispatcher_tests(opcode_defs):
                         test.write(f"\ttungsten::vm::alloc_nnr<{cpp_type}>(m,dst.name());\n")
                     test.write(f"\t*tungsten::memory_address<{cpp_type}>(m,dst.name()) = 10;\n")
                     test.write(
-                        f"\ttungsten::vm::{opcode.op_class}_{opcode.parm_triplet()}<{cpp_type}>(m, dst.name());\n")
+                        f"\ttungsten::vm::{opcode.op_class}_{opcode.signature()}<{cpp_type}>(m, dst.name());\n")
                     test.write(f"\t{cpp_type} result = *tungsten::memory_address<{cpp_type}>(m,dst.name());\n")
                     test_result = TEST_RESULTS.get(opcode.full_name)
                     if test_result:
@@ -345,7 +434,7 @@ def write_dispatcher_tests(opcode_defs):
                     test.write(f"\ttungsten::vm::alloc_nnr<{cpp_type}>(m,dst.name());\n")
                     test.write(f"\tm.write_register<{cpp_type}>(dst.name(), 10);\n")
                     test.write(
-                        f"\ttungsten::vm::{opcode.op_class}_{opcode.parm_triplet()}<{cpp_type}>(m, dst.name());\n")
+                        f"\ttungsten::vm::{opcode.op_class}_{opcode.signature()}<{cpp_type}>(m, dst.name());\n")
                     test.write(f"\t{cpp_type} result = m.read_register<{cpp_type}>(dst.name());\n")
                     test_result = TEST_RESULTS.get(opcode.full_name)
                     if test_result:
@@ -360,7 +449,7 @@ def main():
     write_opcode_constants(opcode_defs)
     write_dispatcher(opcode_defs)
     write_dispatcher_tests(opcode_defs)
-    write_binary_operations()
+    write_binary_operations(opcode_defs)
 
 
 if __name__ == "__main__":

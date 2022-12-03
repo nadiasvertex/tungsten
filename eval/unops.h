@@ -56,4 +56,15 @@ template <typename T>
 void dec_nnr(tungsten::machine &m, const register_name &dst) {
   m.write_register<T>(dst, m.read_register<T>(dst) - 1);
 }
+
+template <typename T>
+void not_nnm(tungsten::machine &m, const register_name &dst) {
+  T *dst_value = memory_address<T>(m, dst);
+  *dst_value = !(*dst_value);
+}
+
+template <typename T>
+void not_nnr(tungsten::machine &m, const register_name &dst) {
+  m.write_register<T>(dst, !m.read_register<T>(dst));
+}
 } // namespace tungsten::vm
